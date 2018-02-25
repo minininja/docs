@@ -1,0 +1,7 @@
+logging:
+  level: INFO
+  loggers:
+    org.dorkmaster.docs: DEBUG
+
+swagger:
+  resourcePackage: org.dorkmaster
