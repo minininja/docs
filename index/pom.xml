@@ -33,6 +33,10 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-jdbi</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-assets</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.elasticsearch</groupId>
@@ -48,6 +52,12 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mitre.dsmiley.httpproxy</groupId>
+            <artifactId>smiley-http-proxy-servlet</artifactId>
+            <version>1.10</version>
         </dependency>
     </dependencies>
 
