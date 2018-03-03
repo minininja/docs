@@ -111,7 +111,8 @@ public class Injester {
     public class FileUploadRoute extends RouteBuilder {
         private String host = Config.instance().value(CONFIG, "storage.host").asString("localhost");
         private int port = Config.instance().value(CONFIG, "storage.port").asInt(8082);
-        private String bucketPattern = Config.instance().value(CONFIG, "storage.bucketPattern").asString("yyyyMMdd");
+        private String bucketPrefix = Config.instance().value(CONFIG, "storage.bucket.prefix").asString("prefix");
+        private String bucketPattern = Config.instance().value(CONFIG, "storage.bucket.pattern").asString("yyyyMMdd");
         private String contentType = Config.instance().value(CONFIG, "storage.contentType").asString("application/octet-stream");
         private String path = Config.instance().value(CONFIG, "storage.path").asString("/v1/storage/{bucket}");
         private String protocol = Config.instance().value(CONFIG, "storage.protocol").asString("http");
@@ -120,7 +121,7 @@ public class Injester {
         @Override
         public void configure() throws Exception {
             from("direct:uploader")
-                    .setHeader("bucket", simple(new SimpleDateFormat(bucketPattern).format(new Date())))
+                    .setHeader("bucket", simple(bucketPattern + "-" + new SimpleDateFormat(bucketPattern).format(new Date())))
                     .setHeader("Content-Type", simple(contentType))
                     .to("log:Sending file to storage")
                     .to("restlet:" + protocol + "://" + host + ":" + port + path + "?restletMethod=" + method)
