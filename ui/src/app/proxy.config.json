@@ -1,0 +1,6 @@
+{
+  "/index/*": {
+    "target": "http://localhost:8080/index",
+    "secure": false
+  }
+}
