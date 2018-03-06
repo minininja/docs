@@ -8,13 +8,16 @@
     Total hits {{results.hits.total}}
   </div>
   <div class="container-fluid">
-    <div (click)="show(hit)" *ngFor="let hit of results.hits.hits">
+    <div *ngFor="let hit of results.hits.hits">
       <div class="row justify-content-md-left">
+        <div class="col-1">
+          <button (click)="show(hit)">Details</button>
+        </div>
         <div class="col-3">{{hit._source.fileId}}</div>
         <div class="col-2">
           {{hit._source.fields['created']}}
         </div>
-        <div class="col-7" style="width: 95%;">
+        <div class="col-6" style="width: 95%;">
           <span *ngFor="let tag of hit._source.tags">{{tag}} </span>
         </div>
       </div>
