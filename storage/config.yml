@@ -1,5 +1,5 @@
-basedir: /tmp
-fanout: 1
+basedir: /mnt/backup/storage
+fanout: 2
 
 swagger:
   resourcePackage: org.dorkmaster.docs.storage

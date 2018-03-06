@@ -1,0 +1,26 @@
+<input #search (keyup.enter)="doSearch(search.value)" (blur)="doSearch(search.value);" search.value=""/>
+<button (click)="doSearch(search.value)">Go</button>
+<div *ngIf="results">
+  <div>
+    Searched in {{results.took}} ms
+  </div>
+  <div>
+    Total hits {{results.hits.total}}
+  </div>
+  <table>
+    <tr *ngFor="let hit of results.hits.hits">
+      <td>
+        <a href="http://localhost:8082/v1/storage/{{hit._source.bucket}}/{{hit._source.fileId}}?filename={{hit._source.fields['riginalFilename
+:
+']}}">Download</a>
+      </td>
+      <td>{{hit._source.id}}</td>
+      <td>{{hit._source.bucket}}</td>
+      <td>{{hit._source.fileId}}</td>
+      <td>
+        <span *ngFor="let tag of hit._source.tags">{{tag}} </span>
+      </td>
+    </tr>
+  </table>
+</div>
+

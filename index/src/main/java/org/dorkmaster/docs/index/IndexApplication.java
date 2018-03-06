@@ -42,6 +42,14 @@ public class IndexApplication extends Application<IndexConfiguration> {
     public void run(final IndexConfiguration configuration, final Environment environment) {
         environment.jersey().register(new DocumentResource(configuration.getElasticSearchBaseUrl()));
 
+        // Enable CORS headers
+        final FilterRegistration.Dynamic cors =
+                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+        cors.setInitParameter("allowedOrigins", "*");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
         ServletRegistration.Dynamic proxy;
         (proxy = environment.servlets().addServlet("proxy", ProxyServlet.class)).addMapping("/index/*");
         proxy.setInitParameter("targetUri", configuration.getElasticSearchBaseUrl());

@@ -2,20 +2,16 @@ package org.dorkmaster.docs.storage.resources;
 
 import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +34,18 @@ public class StorageResource {
     @GET
     @Path("/{bucket}/{fileId}")
     @Produces("application/octet-stream")
-    public Response read(@PathParam("bucket") String bucket, @PathParam("fileId") String fileId) {
+    public Response read(@Context @PathParam("bucket") String bucket, @PathParam("fileId") String fileId, @QueryParam("filename") String name) throws FileNotFoundException {
+        File file = file(bucket, fileId);
+        if (file.exists() && file.canRead()) {
+            Response.ResponseBuilder rb = Response.ok(new FileInputStream(file));
+            if (StringUtils.isNotBlank(name)) {
+                rb.header("Content-Disposition", "attachment; filename=" + name);
+            }
+            return rb.build();
+        }
         throw new NotFoundException();
     }
+
 
     @GET
     @Path("/{bucket}/{fileId}/meta")

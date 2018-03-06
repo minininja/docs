@@ -121,7 +121,7 @@ public class Injester {
         @Override
         public void configure() throws Exception {
             from("direct:uploader")
-                    .setHeader("bucket", simple(bucketPattern + "-" + new SimpleDateFormat(bucketPattern).format(new Date())))
+                    .setHeader("bucket", simple(bucketPrefix + "-" + new SimpleDateFormat(bucketPattern).format(new Date())))
                     .setHeader("Content-Type", simple(contentType))
                     .to("log:Sending file to storage")
                     .to("restlet:" + protocol + "://" + host + ":" + port + path + "?restletMethod=" + method)
