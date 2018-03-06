@@ -1,5 +1,5 @@
 <input #search (keyup.enter)="doSearch(search.value)" (blur)="doSearch(search.value);" search.value=""/>
-<button (click)="doSearch(search.value)">Go</button>
+<button (click)="doSearch(search.value)" value="unindexed">Go</button>
 <div *ngIf="results">
   <div>
     Searched in {{results.took}} ms
@@ -7,20 +7,24 @@
   <div>
     Total hits {{results.hits.total}}
   </div>
-  <table>
-    <tr *ngFor="let hit of results.hits.hits">
-      <td>
-        <a href="http://localhost:8082/v1/storage/{{hit._source.bucket}}/{{hit._source.fileId}}?filename={{hit._source.fields['riginalFilename
-:
-']}}">Download</a>
-      </td>
-      <td>{{hit._source.id}}</td>
-      <td>{{hit._source.bucket}}</td>
-      <td>{{hit._source.fileId}}</td>
-      <td>
-        <span *ngFor="let tag of hit._source.tags">{{tag}} </span>
-      </td>
-    </tr>
-  </table>
+  <div class="container-fluid">
+    <div (click)="show(hit)" *ngFor="let hit of results.hits.hits">
+      <div class="row justify-content-md-left">
+        <div class="col-3">{{hit._source.fileId}}</div>
+        <div class="col-2">
+          {{hit._source.fields['created']}}
+        </div>
+        <div class="col-7" style="width: 95%;">
+          <span *ngFor="let tag of hit._source.tags">{{tag}} </span>
+        </div>
+      </div>
+      <div class="row justify-content-md-left" *ngIf="hit.show">
+        <div class="col-1">
+          <a
+            href="http://localhost:8082/v1/storage/{{hit._source.bucket}}/{{hit._source.fileId}}/{{hit._source.fields.originalFilename}}">Download</a>
+        </div>
+        <div class="col-11" [innerHtml]="stringify(hit)"></div>
+      </div>
+    </div>
+  </div>
 </div>
-

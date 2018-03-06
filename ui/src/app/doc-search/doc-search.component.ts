@@ -1,6 +1,16 @@
-import {Component, Injectable, OnInit} from '@angular/core';
-import {Search} from "../search";
+import {Component, Injectable, OnInit, Pipe} from '@angular/core';
 import {DataService} from "../services/data.service";
+
+@Pipe({
+  name: 'prettyprint'
+})
+export class PrettyPrintPipe {
+  transform(val) {
+    return JSON.stringify(val, null, 2)
+      .replace(/ /g, '&nbsp;')
+      .replace(/\n/g, '<br/>');
+  }
+}
 
 @Component({
   selector: 'app-doc-search',
@@ -24,6 +34,21 @@ export class DocSearchComponent implements OnInit {
         this.results = data;
       }
     )
+  }
+
+  stringify(obj: any) {
+    return JSON.stringify(obj, null, "    ").replace(/ /g, '&nbsp;').replace(/\n/g, '<br/>');
+  }
+
+  show(hit: any) {
+    if (hit.show === null || !hit.show) {
+      console.log("showing row");
+      hit.show = true;
+    }
+    else {
+      console.log("hiding row");
+      hit.show = false;
+    }
   }
 
   ngOnInit() {
