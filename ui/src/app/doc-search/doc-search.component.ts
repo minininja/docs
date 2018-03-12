@@ -27,17 +27,12 @@ export class DocSearchComponent implements OnInit {
     this.ds = ds;
   }
 
-  doSearch(search: string) {
-    console.log("Searching for " + search);
-    this.ds.get("/mfc/_search?q=" + search).subscribe(
-      data => {
-        this.results = data;
-      }
-    )
+  url(hit: any) {
+    return "http://localhost:8082/v1/storage/" + hit._source.bucket + "/" + hit._source.fileId + "/" + hit._source.fields.originalFilename;
   }
 
-  stringify(obj: any) {
-    return JSON.stringify(obj, null, "    ").replace(/ /g, '&nbsp;').replace(/\n/g, '<br/>');
+  value(hit: any, field: string) {
+    return hit._source.fields[field];
   }
 
   show(hit: any) {
@@ -49,6 +44,24 @@ export class DocSearchComponent implements OnInit {
       console.log("hiding row");
       hit.show = false;
     }
+  }
+
+  doSearch(search: string) {
+    console.log("Searching for " + search);
+    this.ds.get("/mfc/_search?q=" + search).subscribe(
+      data => {
+        this.results = data;
+      }
+    )
+  }
+
+  updateDocument(hit: any) {
+    console.log("Updating document: " + hit._id);
+    this.ds.post("/mfc/_doc/" + hit._id + "/_update", hit._source).subscribe(
+      data => {
+        console.log("Updated record");
+      }
+    )
   }
 
   ngOnInit() {

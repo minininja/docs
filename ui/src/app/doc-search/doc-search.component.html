@@ -1,5 +1,5 @@
-<input #search (keyup.enter)="doSearch(search.value)" (blur)="doSearch(search.value);" search.value=""/>
-<button (click)="doSearch(search.value)" value="unindexed">Go</button>
+<input #search (keyup.enter)="doSearch(search.value)" (blur)="doSearch(search.value);" value="unindexed"/>
+<button (click)="doSearch(search.value)">Go</button>
 <div *ngIf="results">
   <div>
     Searched in {{results.took}} ms
@@ -17,16 +17,28 @@
         <div class="col-2">
           {{hit._source.fields['created']}}
         </div>
-        <div class="col-6" style="width: 95%;">
-          <span *ngFor="let tag of hit._source.tags">{{tag}} </span>
-        </div>
+        <tag-input [(ngModel)]="hit._source.tags" [disable]="true" [theme]="'bootstrap3-info'"></tag-input>
       </div>
       <div class="row justify-content-md-left" *ngIf="hit.show">
         <div class="col-1">
-          <a
-            href="http://localhost:8082/v1/storage/{{hit._source.bucket}}/{{hit._source.fileId}}/{{hit._source.fields.originalFilename}}">Download</a>
+          <ul>
+            <li>
+              <a [attr.href]='url(hit)'>Download</a>
+            </li>
+            <li>
+              <button (click)="updateDocument(hit)">Update</button>
+            </li>
+          </ul>
         </div>
-        <div class="col-11" [innerHtml]="stringify(hit)"></div>
+        <tag-input class="col-4" [(ngModel)]="hit._source.tags" [separatorKeyCodes]="[32, 188]"
+                   [theme]="'bootstrap3-info'"></tag-input>
+        <div class="col-5">
+          <ul>
+            <li *ngFor="let key of hit._source.fields | keys">
+              {{key}}: {{value(hit, key)}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ swagger:
   resourcePackage: org.dorkmaster.docs.index
 
 logging:
-  level: DEBUG
+  level: INFO
   loggers:
     org.dorkmaster.docs: DEBUG
 

@@ -35,7 +35,8 @@ public class IndexApplication extends Application<IndexConfiguration> {
             }
         });
 
-        bootstrap.addBundle(new AssetsBundle("/ui", "/ui", "index.html"));
+        bootstrap.addBundle(new AssetsBundle("/ui"));
+//        bootstrap.addBundle(new AssetsBundle("/ui", "/ui", "index.html"));
     }
 
     @Override
