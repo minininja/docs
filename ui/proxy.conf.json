@@ -1,0 +1,14 @@
+{
+  "/index": {
+    "target": "http://localhost:9090",
+    "secure": false
+  },
+  "/es": {
+    "target": "http://localhost:9200",
+    "secure": false
+  },
+  "/storage": {
+    "target": "http://localhost:9092",
+    "secure": false
+  }
+}

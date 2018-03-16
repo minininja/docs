@@ -28,7 +28,7 @@ export class DocSearchComponent implements OnInit {
   }
 
   url(hit: any) {
-    return "http://localhost:8082/v1/storage/" + hit._source.bucket + "/" + hit._source.fileId + "/" + hit._source.fields.originalFilename;
+    return "/storage/v1/storage/" + hit._source.bucket + "/" + hit._source.fileId + "/" + hit._source.fields.originalFilename;
   }
 
   value(hit: any, field: string) {
@@ -48,7 +48,7 @@ export class DocSearchComponent implements OnInit {
 
   doSearch(search: string) {
     console.log("Searching for " + search);
-    this.ds.get("/mfc/_search?q=" + search).subscribe(
+    this.ds.get("/es/mfc/_search?q=" + search).subscribe(
       data => {
         this.results = data;
       }
@@ -57,7 +57,20 @@ export class DocSearchComponent implements OnInit {
 
   updateDocument(hit: any) {
     console.log("Updating document: " + hit._id);
-    this.ds.post("/mfc/_doc/" + hit._id + "/_update", hit._source).subscribe(
+
+    let doc = hit._source;
+    let tags: String[] = [];
+    for (let t of doc.tags) {
+      if (t instanceof String) {
+        tags.push(t);
+      }
+      else {
+        tags.push(t.value.toString());
+      }
+    }
+    doc.tags = tags;
+
+    this.ds.post("/es/mfc/_doc/" + hit._id + "/_update", 'appplication/json', hit._source).subscribe(
       data => {
         console.log("Updated record");
       }

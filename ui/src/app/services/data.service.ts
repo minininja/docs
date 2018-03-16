@@ -6,14 +6,14 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class DataService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = "http://localhost:8080/index";
+    this.url = "";
   }
 
   get(path) {
@@ -22,14 +22,20 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  put(path, resource) {
-    return this.http.post(this.url + path, JSON.stringify(resource))
+  post(path, contentType, resource) {
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': contentType
+      })
+    };
+
+    return this.http.post(this.url + path, JSON.stringify(resource), headers)
       .map(response => response)
       .catch(this.handleError);
   }
 
-  post(path, resource) {
-    return this.http.patch(this.url + path, JSON.stringify({isRead: true}))
+  put(path, resource) {
+    return this.http.put(this.url + path, JSON.stringify({isRead: true}))
       .map(response => response)
       .catch(this.handleError);
   }

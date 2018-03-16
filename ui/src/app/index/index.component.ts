@@ -20,7 +20,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     console.log("loading indicies");
-    this.ds.get("/mfc/_stats").subscribe(
+    this.ds.get("/es/mfc/_stats").subscribe(
       data => {
         this.index = data;
       }

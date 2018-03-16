@@ -20,6 +20,7 @@
         <module>injestion</module>
         <module>storage</module>
         <module>index</module>
+        <module>front</module>
     </modules>
 
     <dependencyManagement>
