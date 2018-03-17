@@ -59,18 +59,27 @@ export class DocSearchComponent implements OnInit {
     console.log("Updating document: " + hit._id);
 
     let doc = hit._source;
-    let tags: String[] = [];
+
+    var tags = [];
     for (let t of doc.tags) {
-      if (t instanceof String) {
-        tags.push(t);
+      if (t instanceof Object) {
+        tags.push(t.value);
       }
       else {
-        tags.push(t.value.toString());
+        tags.push(t);
       }
+    }
+    if (null == tags.filter(x => x == "indexed")[0]) {
+      tags.push("indexed");
     }
     doc.tags = tags;
 
-    this.ds.post("/es/mfc/_doc/" + hit._id + "/_update", 'appplication/json', hit._source).subscribe(
+    var posted = {
+      "doc": doc,
+      "doc_as_upsert": true
+    };
+
+    this.ds.post("/es/mfc/mfc/" + hit._id + "/_update", 'application/json', posted).subscribe(
       data => {
         console.log("Updated record");
       }

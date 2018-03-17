@@ -110,7 +110,7 @@ public class Injester {
 
     public class FileUploadRoute extends RouteBuilder {
         private String host = Config.instance().value(CONFIG, "storage.host").asString("localhost");
-        private int port = Config.instance().value(CONFIG, "storage.port").asInt(8082);
+        private int port = Config.instance().value(CONFIG, "storage.port").asInt(9092);
         private String bucketPrefix = Config.instance().value(CONFIG, "storage.bucket.prefix").asString("prefix");
         private String bucketPattern = Config.instance().value(CONFIG, "storage.bucket.pattern").asString("yyyyMMdd");
         private String contentType = Config.instance().value(CONFIG, "storage.contentType").asString("application/octet-stream");
@@ -132,7 +132,7 @@ public class Injester {
     public class IndexRoute extends RouteBuilder {
         private String protocol = Config.instance().value(CONFIG, "index.protocol").asString("http");
         private String host = Config.instance().value(CONFIG, "index.host").asString("localhost");
-        private int port = Config.instance().value(CONFIG, "index.port").asInt(8080);
+        private int port = Config.instance().value(CONFIG, "index.port").asInt(9090);
         private String method = Config.instance().value(CONFIG, "index.method").asString("put");
         private String path = Config.instance().value(CONFIG, "index.path").asString("/v1/document");
         private String index = Config.instance().value(CONFIG, "index.index").asString("mfc");
