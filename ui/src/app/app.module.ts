@@ -11,13 +11,17 @@ import {TagInputModule} from 'ngx-chips';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {KeyPipePipe} from './key-pipe.pipe';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {DocResultsComponent} from './doc-results/doc-results.component';
+import {IndexSelecterComponent} from './index-selecter/index-selecter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
     DocSearchComponent,
-    KeyPipePipe
+    KeyPipePipe,
+    DocResultsComponent,
+    IndexSelecterComponent
   ],
   imports: [
     TagInputModule,

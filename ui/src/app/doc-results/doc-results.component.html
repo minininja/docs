@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col2">Created</div>
+    <div class="col8">Tags</div>
+    <div class="col2"></div>
+  </div>
+
+  <div class="row" *ngFor="let hit of records()">
+    <!--{{hit | json}}-->
+    <div class="col2">{{document(hit).fields['created']}}</div>
+    <div class="col8">
+      <tag-input [(ngModel)]="document(hit).tags" [separatorKeyCodes]="[32, 188]"
+                 [theme]="'bootstrap3-info'"></tag-input>
+    </div>
+    <div class="col2">
+      <a [attr.href]='url(hit)'>Download</a>
+    </div>
+  </div>
+</div>

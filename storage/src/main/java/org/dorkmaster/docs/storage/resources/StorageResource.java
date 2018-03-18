@@ -93,7 +93,7 @@ public class StorageResource {
         long hash = fileId.hashCode();
         for (int i = 0; i < fanout; i++) {
             file = new File(file, "" + (hash % fanout));
-            hash = hash / 10;
+            hash = Math.abs(hash / 10);
         }
         file.mkdirs();
         return new File(file, fileId);
